@@ -1,12 +1,15 @@
 package com.example.vkeducation
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,7 +24,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.example.vkeducation.ui.theme.VKEducationTheme
+import androidx.core.net.toUri
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,11 +37,25 @@ class MainActivity : ComponentActivity() {
             VKEducationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     First(
-                        onBtnClick = { text ->
+                        onSendTextBtnClick = { text ->
                             val intent = Intent(this, SecondActivity::class.java).apply {
                                 putExtra("KEY", text)
                             }
                             this.startActivity(intent)
+                        },
+                        onCallBtnClick = { text ->
+                            if (text.isNotEmpty()) {
+                                val intent = Intent(Intent.ACTION_DIAL).apply {
+                                    data = "tel:$text".toUri()
+                                }
+                                if (intent.resolveActivity(packageManager) != null) {
+                                    startActivity(intent)
+                                } else {
+                                    Toast.makeText(this, "Нет приложения для звонков", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                Toast.makeText(this, "Введите номер телефона", Toast.LENGTH_SHORT).show()
+                            }
                         },
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -68,7 +87,8 @@ class SecondActivity : ComponentActivity() {
 
 @Composable
 fun First(
-    onBtnClick: (String) -> Unit,
+    onSendTextBtnClick: (String) -> Unit,
+    onCallBtnClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var text by remember { mutableStateOf("") }
@@ -85,10 +105,19 @@ fun First(
             label = { Text("Введите текст") },
             modifier = Modifier.fillMaxWidth()
         )
-        Button(
-            onClick = { onBtnClick(text) }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            Text(text = "Открыть вторую Activity")
+            Button(
+                onClick = { onSendTextBtnClick(text) }
+            ) {
+                Text(text = "Открыть вторую Activity")
+            }
+            Button(
+                onClick = { onCallBtnClick(text) }
+            ) {
+                Text(text = "Позвонить другу")
+            }
         }
     }
 }
