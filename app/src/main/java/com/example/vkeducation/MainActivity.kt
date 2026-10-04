@@ -1,7 +1,6 @@
 package com.example.vkeducation
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -57,6 +56,17 @@ class MainActivity : ComponentActivity() {
                                 Toast.makeText(this, "Введите номер телефона", Toast.LENGTH_SHORT).show()
                             }
                         },
+                        onShareTextBtnClick = { text ->
+                            if (text.isNotEmpty()) {
+                                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                                    type = "text/plain"
+                                    putExtra(Intent.EXTRA_TEXT, text)
+                                }
+                                startActivity(Intent.createChooser(shareIntent, "Поделиться через"))
+                            } else {
+                                Toast.makeText(this, "Введите текст для отправки", Toast.LENGTH_SHORT).show()
+                            }
+                        },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -89,6 +99,7 @@ class SecondActivity : ComponentActivity() {
 fun First(
     onSendTextBtnClick: (String) -> Unit,
     onCallBtnClick: (String) -> Unit,
+    onShareTextBtnClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var text by remember { mutableStateOf("") }
@@ -117,6 +128,11 @@ fun First(
                 onClick = { onCallBtnClick(text) }
             ) {
                 Text(text = "Позвонить другу")
+            }
+            Button(
+                onClick = { onShareTextBtnClick(text) }
+            ) {
+                Text(text = "Поделиться текстом")
             }
         }
     }
