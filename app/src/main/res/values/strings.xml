@@ -1,3 +1,40 @@
 <resources>
     <string name="app_name">VKEducation</string>
+    <string name="toolbar_title">Приложения</string>
+    <string name="vk_logo">vk</string>
+    <string name="app_vk_icon">вк</string>
+    <string name="app_music_icon">♫</string>
+    <string name="app_video_icon">▶</string>
+    <string name="app_dating_icon">♥</string>
+    <string name="app_clips_icon">▸</string>
+    <string name="app_messenger_icon">✉</string>
+    <string name="app_play_icon">✦</string>
+    <string name="app_jobs_icon">↗</string>
+    <string name="catalog_title">Сервисы VK</string>
+    <string name="catalog_subtitle">Приложения для всего, что вам нравится</string>
+
+    <string name="app_vk_name">ВКонтакте</string>
+    <string name="app_vk_description">Общайтесь, слушайте музыку и смотрите видео</string>
+    <string name="app_vk_category">Социальные сети</string>
+    <string name="app_music_name">VK Музыка</string>
+    <string name="app_music_description">Музыка на каждый день и для любого настроения</string>
+    <string name="app_music_category">Музыка</string>
+    <string name="app_video_name">VK Видео</string>
+    <string name="app_video_description">Фильмы, шоу и видео, которые вам понравятся</string>
+    <string name="app_video_category">Видео</string>
+    <string name="app_dating_name">VK Знакомства</string>
+    <string name="app_dating_description">Находите людей с похожими интересами</string>
+    <string name="app_dating_category">Знакомства</string>
+    <string name="app_clips_name">VK Клипы</string>
+    <string name="app_clips_description">Короткие вертикальные видео от авторов</string>
+    <string name="app_clips_category">Развлечения</string>
+    <string name="app_messenger_name">VK Мессенджер</string>
+    <string name="app_messenger_description">Быстрые сообщения и звонки с близкими</string>
+    <string name="app_messenger_category">Общение</string>
+    <string name="app_play_name">VK Play</string>
+    <string name="app_play_description">Игры, стримы и новые впечатления</string>
+    <string name="app_play_category">Игры</string>
+    <string name="app_jobs_name">VK Работа</string>
+    <string name="app_jobs_description">Вакансии и возможности для карьеры</string>
+    <string name="app_jobs_category">Карьера</string>
 </resources>
