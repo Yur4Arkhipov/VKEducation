@@ -1,6 +1,7 @@
 package com.example.vkeducation.presentation.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,7 +46,7 @@ import com.example.vkeducation.presentation.theme.text_secondary
 import com.example.vkeducation.presentation.theme.toolbar_accent
 
 @Composable
-internal fun AppsScreen() {
+internal fun AppsScreen(onAppClick: (AppItem) -> Unit = {}) {
     Scaffold(
         containerColor = screen_background
     ) { contentPadding ->
@@ -85,7 +86,7 @@ internal fun AppsScreen() {
                     items = apps,
                     key = { it.id }
                 ) {
-                    app -> AppCard(app)
+                    app -> AppCard(app, onClick = { onAppClick(app) })
                 }
             }
         }
@@ -129,9 +130,11 @@ private fun Toolbar() {
 }
 
 @Composable
-private fun AppCard(app: AppItem) {
+internal fun AppCard(app: AppItem, onClick: () -> Unit = {}) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(18.dp),
         color = card_background,
         shadowElevation = 1.dp
@@ -145,7 +148,7 @@ private fun AppCard(app: AppItem) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
-                onClick = { }
+                onClick = onClick
             ) {
                 Icon(
                     painter = painterResource(app.icon),
