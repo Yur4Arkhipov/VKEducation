@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.vkeducation.R
 import com.example.vkeducation.data.apps
-import com.example.vkeducation.presentation.ui.AppCard
+import com.example.vkeducation.presentation.ui.main.AppCard
 
 @Composable
 internal fun Storefront(
