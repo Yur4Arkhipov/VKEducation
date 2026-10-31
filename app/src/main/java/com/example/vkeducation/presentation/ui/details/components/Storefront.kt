@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.vkeducation.R
 import com.example.vkeducation.data.apps
-import com.example.vkeducation.presentation.ui.main.AppCard
 
 @Composable
 internal fun Storefront(
@@ -37,7 +36,7 @@ internal fun Storefront(
         ) { page ->
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 pageApps[page].forEach { app ->
-                    AppCard(app = app, onClick = onAppClick)
+//                    AppCard(app = app, onClick = onAppClick)
                 }
             }
         }
