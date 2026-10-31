@@ -89,12 +89,12 @@ fun AppDetailsContent(
                 .padding(start = 16.dp),
         )
         Spacer(Modifier.height(20.dp))
-        Storefront(
-            onAppClick = onStorefrontAppClick,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-        )
+//        Storefront(
+//            onAppClick = onStorefrontAppClick,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 16.dp),
+//        )
     }
 }
 
