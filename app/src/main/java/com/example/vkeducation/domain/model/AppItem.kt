@@ -3,7 +3,7 @@ package com.example.vkeducation.domain.model
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
-internal data class AppItem(
+data class AppItem(
     val id: Int,
     @StringRes val name: Int,
     @StringRes val description: Int,
