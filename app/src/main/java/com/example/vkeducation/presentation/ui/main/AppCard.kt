@@ -8,8 +8,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -17,14 +18,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vkeducation.R
+import coil3.compose.AsyncImage
 import com.example.vkeducation.domain.model.AppItem
 import com.example.vkeducation.presentation.theme.VKEducationTheme
 import com.example.vkeducation.presentation.theme.appItemColor
@@ -33,7 +32,10 @@ import com.example.vkeducation.presentation.theme.text_description
 import com.example.vkeducation.presentation.theme.text_primary
 
 @Composable
-internal fun AppCard(app: AppItem, onClick: () -> Unit = {}) {
+internal fun AppCard(
+    app: AppItem,
+    onClick: () -> Unit = {}
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -54,9 +56,13 @@ internal fun AppCard(app: AppItem, onClick: () -> Unit = {}) {
             IconButton(
                 onClick = onClick
             ) {
-                Icon(
-                    painter = painterResource(app.icon),
-                    contentDescription = null
+                AsyncImage(
+                    model = app.iconUrl,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(card_background)
                 )
             }
             Column(
@@ -65,7 +71,7 @@ internal fun AppCard(app: AppItem, onClick: () -> Unit = {}) {
                     .padding(start = 14.dp)
             ) {
                 Text(
-                    text = stringResource(app.name),
+                    text = app.name,
                     style = TextStyle(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -74,7 +80,7 @@ internal fun AppCard(app: AppItem, onClick: () -> Unit = {}) {
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    text = stringResource(app.description),
+                    text = app.description,
                     style = TextStyle(
                         fontSize = 12.sp,
                         lineHeight = 18.sp,
@@ -83,7 +89,7 @@ internal fun AppCard(app: AppItem, onClick: () -> Unit = {}) {
                 )
                 Spacer(Modifier.height(9.dp))
                 Text(
-                    text = stringResource(app.category).uppercase(),
+                    text = app.category.uppercase(),
                     style = TextStyle(
                         fontSize = 10.sp,
                         lineHeight = 14.sp,
@@ -111,10 +117,10 @@ fun AppCardPreview() {
         AppCard(
             AppItem(
                 id = 1,
-                name = R.string.app_vk_name,
-                description = R.string.app_vk_description,
-                category = R.string.app_vk_category,
-                icon = R.drawable.ic_edit_24,
+                name = "QuickNote",
+                description = "Лёгкое приложение для заметок и напоминаний",
+                category = "Производительность",
+                iconUrl = "https://fastly.picsum.photos/id/237/200/200.jpg?hmac=zHUGikXUDyLCCmvyww1izLK3R3k8oRYBRiTizZEdyfI"
             ),
             onClick = { }
         )
