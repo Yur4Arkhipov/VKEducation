@@ -9,15 +9,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.size
+import com.example.vkeducation.R
 import com.example.vkeducation.domain.model.Category
 import com.example.vkeducation.presentation.theme.VKEducationTheme
 import com.example.vkeducation.presentation.ui.details.AppDetailsState
+import com.example.vkeducation.presentation.ui.details.InstallState
 import com.example.vkeducation.presentation.ui.details.model.AppDetails
 import com.example.vkeducation.presentation.ui.details.model.SimilarApp
 
@@ -35,6 +42,7 @@ fun AppDetailsContent(
 ) {
     val appDetails = content.appDetails
     val descriptionCollapsed = content.descriptionCollapsed
+    val installState = content.installState
 
     Column(modifier.verticalScroll(rememberScrollState())) {
         Toolbar(
@@ -48,11 +56,33 @@ fun AppDetailsContent(
         )
         Spacer(Modifier.height(16.dp))
         InstallButton(
+            installState = installState,
             onClick = onInstallClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         )
+        if (installState is InstallState.Installing) {
+            Spacer(Modifier.height(8.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                CircularProgressIndicator(
+                    progress = { installState.progress / 100f },
+                    modifier = Modifier.size(24.dp),
+                    strokeWidth = 3.dp,
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = "${installState.progress}%",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
         if (content.similarApps.isNotEmpty()) {
             Spacer(Modifier.height(12.dp))
             SimilarApps(

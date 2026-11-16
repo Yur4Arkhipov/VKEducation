@@ -11,32 +11,20 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.example.vkeducation.domain.model.Category
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.vkeducation.presentation.ui.details.components.AppDetailsContent
 import com.example.vkeducation.presentation.ui.details.components.AppDetailsError
 import com.example.vkeducation.presentation.ui.details.components.AppDetailsLoading
-import com.example.vkeducation.presentation.ui.details.model.AppDetails
 
 @Composable
-fun AppDetailsScreen(onBackClick: () -> Unit = {}, onStorefrontAppClick: () -> Unit = {}) {
+fun AppDetailsScreen(
+    onBackClick: () -> Unit = {},
+    onStorefrontAppClick: () -> Unit = {},
+    viewModel: AppDetailsViewModel = hiltViewModel(),
+) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val state = remember {
-        AppDetailsState.Content(
-            appDetails = AppDetails(
-                id = "vk-app",
-                name = "ВКонтакте",
-                developer = "VK",
-                category = Category.APP,
-                ageRating = 12,
-                size = 120f,
-                iconUrl = "",
-                screenshotUrlList = emptyList(),
-                description = "Общайтесь, слушайте музыку и смотрите видео в одном приложении.",
-            ),
-            similarApps = emptyList(),
-            descriptionCollapsed = false,
-        )
-    }
+    val state = viewModel.state.collectAsStateWithLifecycle()
 
     Scaffold(
         snackbarHost = {
@@ -44,77 +32,42 @@ fun AppDetailsScreen(onBackClick: () -> Unit = {}, onStorefrontAppClick: () -> U
         },
         modifier = Modifier.background(MaterialTheme.colorScheme.surface)
     ) { contentPadding ->
-        AppDetailsContent(
-            content = state,
-            onBackClick = onBackClick,
-            onShareClick = {
+        when (val currentState = state.value) {
+            is AppDetailsState.Loading -> {
+                AppDetailsLoading(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .safeDrawingPadding()
+                        .padding(contentPadding),
+                )
+            }
 
-            },
-            onInstallClick = {
+            is AppDetailsState.Content -> {
+                AppDetailsContent(
+                    content = currentState,
+                    onBackClick = onBackClick,
+                    onShareClick = { },
+                    onInstallClick = viewModel::onInstallClick,
+                    onReadMoreClick = { },
+                    onSimilarAppDownloadClick = { },
+                    onStorefrontAppClick = onStorefrontAppClick,
+                    onDeveloperClick = { },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .safeDrawingPadding()
+                        .padding(contentPadding),
+                )
+            }
 
-            },
-            onReadMoreClick = {
-
-            },
-            onSimilarAppDownloadClick = {
-
-            },
-            onStorefrontAppClick = onStorefrontAppClick,
-            onDeveloperClick = {
-
-            },
-            modifier = Modifier
-                .fillMaxSize()
-                .safeDrawingPadding()
-                .padding(contentPadding),
-        )
-
-//        when (val currentState = state) {
-//            is AppDetailsState.Loading -> {
-//                AppDetailsLoading(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .safeDrawingPadding()
-//                        .padding(contentPadding),
-//                )
-//            }
-//
-//            is AppDetailsState.Error -> {
-//                AppDetailsError(
-//                    onRefreshClick = {},
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .safeDrawingPadding()
-//                        .padding(contentPadding),
-//                )
-//            }
-
-//            is AppDetailsState.Content -> {
-//                AppDetailsContent(
-//                    content = currentState,
-//                    onBackClick = onBackClick,
-//                    onShareClick = {
-//
-//                    },
-//                    onInstallClick = {
-//
-//                    },
-//                    onReadMoreClick = {
-//
-//                    },
-//                    onSimilarAppDownloadClick = {
-//
-//                    },
-//                    onStorefrontAppClick = onStorefrontAppClick,
-//                    onDeveloperClick = {
-//
-//                    },
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .safeDrawingPadding()
-//                        .padding(contentPadding),
-//                )
-//            }
-//        }
+            is AppDetailsState.Error -> {
+                AppDetailsError(
+                    onRefreshClick = {},
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .safeDrawingPadding()
+                        .padding(contentPadding),
+                )
+            }
+        }
     }
 }
